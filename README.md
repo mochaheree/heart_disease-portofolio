@@ -125,5 +125,3 @@ Even with modest standalone signals, the analysis suggests practical actions:
   - Validate insights on a richer or longitudinal dataset if available.
 
 ---
-
-## 📁 Repository Structure
