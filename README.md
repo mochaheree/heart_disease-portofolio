@@ -1,79 +1,76 @@
 # 🫀 Heart Disease Risk Profile — Data Analyst Portfolio Project
 
-Hi, I'm Gevan! This is an end-to-end **Data Analyst case study** based on a heart disease dataset.  
-I used Python to clean the data, explore patterns, and extract insights. The next step after this README is building a lightweight monitoring dashboard in Google Sheets.
+Hi, I'm Gevan! This is an end-to-end **Data Analyst portfolio project** using a heart disease dataset.  
+I cleaned the data in Python, explored patterns through EDA, and then built a lightweight monitoring dashboard in Google Sheets.
 
-> ⚠️ Disclaimer: This project focuses on **association, not medical causation**.  
-> The insights are for data storytelling and decision support, not clinical diagnosis.
+> ⚠️ Disclaimer: This analysis focuses on **association, not medical causation**.  
+> The results are intended for data insights and decision support, not clinical diagnosis.
 
 ---
 
 ## ✨ Project Goals
-Imagine I’m a Data Analyst in a health/insurance company. The business wants to:
-1. Understand how common heart disease is in this dataset.
-2. Identify which factors show clearer differences between individuals with vs without heart disease.
-3. Summarize lifestyle patterns into a simple risk indicator for segmentation.
-4. Provide insights that can be monitored via a dashboard.
+Think of this as a Health/Insurance analytics task. The goals are to:
+1. Measure overall heart disease prevalence in the dataset.
+2. Identify demographic and lifestyle patterns linked to higher prevalence.
+3. Compare numeric biomarkers between groups.
+4. Create a simple lifestyle risk indicator for segmentation.
+5. Deliver insights in a dashboard for easy stakeholder monitoring.
 
 ---
 
 ## ❓ Business Questions
-This project answers questions such as:
 - What is the overall prevalence of heart disease?
 - How does prevalence vary by **age group**, **gender**, and **stress level**?
-- Which **numeric biomarkers** show the strongest separation between groups?
-- Does a combined lifestyle risk score capture meaningful differences?
+- Which **numeric biomarkers** show the clearest separation between “Yes” vs “No” groups?
+- Does a combined lifestyle risk score capture meaningful patterns?
 
 ---
 
 ## 📦 Dataset Overview
+- Source: [heart-disease.csv](https://www.kaggle.com/datasets/oktayrdeki/heart-disease)
 - Rows: **10,000**
 - Columns: **21**
 - Target label: **`heart_disease_status` (Yes/No)**
-- Types: mix of **numeric biomarkers** and **categorical lifestyle/demographics**
-- Missing values: present in several columns but small in proportion (~0.2–0.3%)
+- Types: mix of numeric biomarkers + categorical lifestyle/demographics
+- Missing values: small but present across several fields (~0.2–0.3%)
 
-**Features include:**
+**Key feature groups**
 - **Demographics:** age, gender  
 - **Lifestyle:** smoking, alcohol_consumption, exercise_habits, stress_level, sleep_hours, sugar_consumption  
 - **Clinical / biomarkers:** blood_pressure, cholesterol_level, bmi, triglyceride_level, fasting_blood_sugar, crp_level, homocysteine_level  
-- **Clinical flags:** high_blood_pressure, high_ldl_cholesterol, low_hdl_cholesterol, diabetes, family_heart_disease
+- **Clinical flags:** high_blood_pressure, high_ldl_cholesterol, low_hdl_cholesterol, diabetes, family_heart_disease  
 
 ---
 
 ## 🧹 Data Cleaning & Preparation
-Cleaning was performed in Python with these steps:
+Cleaning was performed in Python:
 
 1. **Data quality checks**
-   - Removed duplicates.
-   - Validated numeric ranges (no negative ages, unrealistic sleep hours, etc.).
-   - Standardized column names.
+   - removed duplicates  
+   - validated numeric ranges  
+   - standardized column names into snake_case  
 
 2. **Categorical normalization**
-   - Trimmed whitespace, unified casing, and standardized category labels  
-     (e.g., `yes/YES/ Yes` → `Yes`).
+   - trimmed whitespace  
+   - unified casing  
+   - standardized labels (`yes/YES/ Yes` → `Yes`)  
 
-3. **Handling missing values**
-   - Numeric columns → imputed with **median** (robust to outliers).
-   - Categorical columns → imputed with **mode** or `"Unknown"` when needed.
-   - Target label was **not imputed**.
+3. **Missing value handling**
+   - numeric columns → median imputation  
+   - categorical columns → mode or `"Unknown"`  
+   - target label was not imputed  
 
 4. **Feature engineering**
-   - Created `age_group` buckets for clearer demographic comparison.
-   - Built a lightweight lifestyle risk score.
+   - created `age_group` buckets  
+   - built a lightweight lifestyle risk score:
+     - `risk_score_light` (0–6)
+     - `risk_segment` (Low / Medium / High)
 
 ---
 
 ## 🔍 Exploratory Data Analysis (EDA)
-EDA was structured into:
-1. **Target distribution**
-2. **Categorical comparison** (age group, gender, stress)
-3. **Numeric driver comparison**
-4. **Risk score validation**
 
----
-
-## ✅ Key Insights (End of EDA)
+### ✅ Key Insights (End of EDA)
 
 **Insight 1 — Age group (mild pattern):**  
 Age group shows only a mild prevalence variation. Heart disease prevalence stays fairly stable across age buckets (around **~19–22%**). There is a small bump in the **30–49** range, but the separation is weak overall, suggesting age alone is not a strong standalone risk indicator in this dataset.
@@ -95,33 +92,56 @@ Other numeric biomarkers (blood pressure, cholesterol, triglycerides, CRP, homoc
 
 ---
 
-## 💡 Business Recommendations (Based on EDA)
-Even with modest standalone signals, the analysis suggests practical actions:
+## 📊 Dashboard (Google Sheets)
+A one-page dashboard was created to monitor prevalence and risk distribution interactively.
 
-1. **Use multi-factor profiling rather than single indicators**  
-   Lifestyle risk appears to accumulate across behaviors, making a combined score more useful for prioritization.
+**Dashboard highlights**
+- KPI cards:
+  - Total Population
+  - Heart Disease Prevalence (% Yes)
+  - Average BMI
+  - Average Lifestyle Risk Score
+  - Average Sleep Hours
+- Segment charts:
+  - Prevalence by Age Group
+  - Prevalence by Gender
+  - Prevalence by Stress Level
+  - Prevalence by Risk Segment
+- Filters/slicers for quick exploration:
+  - risk_segment, gender, & age_group
 
-2. **Monitor BMI and lifestyle score as early warning proxies**  
-   Both show consistent upward shifts in the heart disease group, even if small.
+🔗 **Dashboard Link:** *[Heart Disease Dashboard](https://docs.google.com/spreadsheets/d/1fpL0BvnE8l5V7Pf1CYrRAMscvFv13T-HN-or4OMaHXE/edit?usp=sharing)*  
+🖼️ **Preview:** *![Here](https://github.com/mochaheree/heart_disease-portofolio/blob/main/Heart_Disease_Dashboard.png)*
 
-3. **Include stress level as a supporting segmentation layer**  
-   Stress is the clearest categorical signal; combining stress with elevated biomarkers may help identify priority groups.
+---
+
+## 💡 Business Recommendations
+1. **Prioritize multi-factor risk profiling**  
+   Individual categorical factors show weak standalone effects, while combined lifestyle scoring offers clearer prioritization.
+
+2. **Monitor BMI and lifestyle score as early warning indicators**  
+   Both metrics display consistently higher values among heart disease cases.
+
+3. **Use stress level as a supporting segmentation layer**  
+   Stress is the clearest categorical signal and may help refine priority groups when combined with biomarkers.
 
 ---
 
 ## 🛠 Tools Used
-- **Python:** pandas, numpy, matplotlib, seaborn, scipy  
+- **Python:** pandas, numpy, matplotlib, seaborn  
 - **Google Colab:** analysis environment  
-- **Google Sheets (next step):** dashboarding and stakeholder monitoring
+- **Google Sheets:** dashboarding  
 
 ---
 
 ## 🚧 Limitations & Next Steps
 - Most categorical and numeric gaps are small, suggesting the dataset may be balanced or synthetic.
-- The analysis is **associative** and not causal.
+- Findings are associative, not causal.
 - Next steps:
-  - Build a monitoring dashboard for prevalence and risk distribution.
-  - Explore interactions between biomarkers and lifestyle factors.
-  - Validate insights on a richer or longitudinal dataset if available.
+  - explore interactions between biomarkers and lifestyle factors  
+  - validate insights using richer or longitudinal medical datasets  
 
 ---
+
+## 🙌 Thanks for reading!
+If you have feedback or want to connect, feel free to reach out 🙂
